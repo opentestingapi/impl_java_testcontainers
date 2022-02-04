@@ -24,19 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 class DemoApplicationTests {
 
 	@Container
-	public GenericContainer opentesting = new GenericContainer(DockerImageName.parse("robertdiers/opentesting:latest")).withExposedPorts(50000);
+	public GenericContainer opentesting = new GenericContainer(DockerImageName.parse("robertdiers/opentesting:latest"))
+			.withExposedPorts(50000);
 
 	@Test
 	@SneakyThrows
 	void contextLoads() {
-		//check if opentesting container is available
+		// check if opentesting container is available
 		String address = opentesting.getHost();
 		Integer port = opentesting.getFirstMappedPort();
 		HttpClient client = HttpClient.newBuilder().build();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://"+address+":"+port+"/actuator/health")).build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		log.info("##### opentesting container: "+response.body());
-        assertEquals("{\"status\":\"UP\"}", response.body());
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("http://" + address + ":" + port + "/actuator/health")).build();
+		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		log.info("##### opentesting container: " + response.body());
+		assertEquals("{\"status\":\"UP\"}", response.body());
 	}
 
 }
