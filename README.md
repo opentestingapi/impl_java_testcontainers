@@ -7,4 +7,4 @@ Using this approach it is possible to execute existing test cases during maven b
 
 Here you can find the interesting stuff:
 
-[Test Class](src/test/com/example/demo/)
+[Test Class](src/test/java/com/example/demo/DemoApplicationTests.java)
