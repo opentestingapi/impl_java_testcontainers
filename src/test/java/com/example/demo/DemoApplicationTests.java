@@ -162,7 +162,7 @@ class DemoApplicationTests {
 		Map<String, Object> opentestingdata = json2Map(response.body());
 		String bulkid = (String) opentestingdata.get("bulkid");
 
-		// wait for the test case result:
+		// wait for the test case result - there should not be open test cases anymore:
 		// "percentage":0.0,"all":1,"success":0,"open":1,"failed":0,"mandatorySuccess":false,"allSuccess":false
 		int openchecks = 1;
 		String result = "";
