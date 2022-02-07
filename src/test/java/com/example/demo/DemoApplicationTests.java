@@ -18,7 +18,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,7 +52,7 @@ class DemoApplicationTests {
 	/**
 	 * get server name and port as http://<server>:<port>
 	 * 
-	 * @return
+	 * @return http://<server>:<port>
 	 */
 	private String getOpentestingServer() {
 		String address = opentesting.getHost();
@@ -64,7 +63,7 @@ class DemoApplicationTests {
 	/**
 	 * read file content from resources folder
 	 * 
-	 * @param filename
+	 * @param filename name of the file
 	 * @return file content
 	 * @throws IOException
 	 */
@@ -76,7 +75,7 @@ class DemoApplicationTests {
 	/**
 	 * Json string to JsonNode
 	 * 
-	 * @param input
+	 * @param input json input
 	 * @return JsonNode
 	 * @throws JsonProcessingException
 	 */
@@ -87,8 +86,8 @@ class DemoApplicationTests {
 	/**
 	 * map from Json string using JsonNode
 	 * 
-	 * @param input
-	 * @return
+	 * @param input json input
+	 * @return map with attributes
 	 * @throws JsonProcessingException
 	 */
 	public Map<String, Object> json2Map(String input) throws JsonProcessingException {
@@ -96,6 +95,9 @@ class DemoApplicationTests {
 		});
 	}
 
+	/**
+	 * do a hello world test using the opentesting container
+	 */
 	@Test
 	@SneakyThrows
 	void helloworldtest() {
@@ -185,7 +187,7 @@ class DemoApplicationTests {
 	/**
 	 * request bulk result by bulkid
 	 * 
-	 * @return
+	 * @return the result of the bulk
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
