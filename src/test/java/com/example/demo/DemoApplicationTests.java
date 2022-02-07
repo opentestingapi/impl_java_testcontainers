@@ -33,7 +33,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Testcontainers()
+@Testcontainers
 @Slf4j
 class DemoApplicationTests {
 
@@ -47,11 +47,12 @@ class DemoApplicationTests {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-	
+
 	HttpClient client = HttpClient.newBuilder().build();
 
 	/**
 	 * get server name and port as http://<server>:<port>
+	 * 
 	 * @return
 	 */
 	private String getOpentestingServer() {
@@ -62,6 +63,7 @@ class DemoApplicationTests {
 
 	/**
 	 * read file content from resources folder
+	 * 
 	 * @param filename
 	 * @return file content
 	 * @throws IOException
@@ -73,36 +75,39 @@ class DemoApplicationTests {
 
 	/**
 	 * Json string to JsonNode
+	 * 
 	 * @param input
 	 * @return JsonNode
 	 * @throws JsonProcessingException
 	 */
 	public JsonNode json2JsonNode(String input) throws JsonProcessingException {
-        return objectMapper.readTree(input);
-    }
+		return objectMapper.readTree(input);
+	}
 
 	/**
 	 * map from Json string using JsonNode
+	 * 
 	 * @param input
 	 * @return
 	 * @throws JsonProcessingException
 	 */
-    public Map<String, Object> json2Map(String input) throws JsonProcessingException {        
-        return objectMapper.convertValue(json2JsonNode(input), new TypeReference<Map<String, Object>>(){});
-    }
+	public Map<String, Object> json2Map(String input) throws JsonProcessingException {
+		return objectMapper.convertValue(json2JsonNode(input), new TypeReference<Map<String, Object>>() {
+		});
+	}
 
 	@Test
 	@SneakyThrows
-	void helloworldtest() {		
+	void helloworldtest() {
 
 		// check if my endpoints are available (optional)
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("http://localhost:8080/actuator/health"))
 				.build();
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		log.info("##### my health: " + response.body());		
+		log.info("##### my health: " + response.body());
 
-		// check if opentesting container is available	
+		// check if opentesting container is available
 		request = HttpRequest.newBuilder()
 				.uri(URI.create(getOpentestingServer() + "/actuator/health"))
 				.build();
@@ -110,27 +115,29 @@ class DemoApplicationTests {
 		log.info("##### opentesting container: " + response.body());
 
 		// validation
-		assertEquals("{\"status\":\"UP\"}", response.body());	
-		
+		assertEquals("{\"status\":\"UP\"}", response.body());
+
 		// expose host port to the opentesting container
 		org.testcontainers.Testcontainers.exposeHostPorts(8080);
 
 		// upload test case files
 		request = HttpRequest.newBuilder()
-				.POST(HttpRequest.BodyPublishers.ofString(getResourceContent("opentestingapi/helloworldtest/check_rest_1_request.txt")))
+				.POST(HttpRequest.BodyPublishers
+						.ofString(getResourceContent("opentestingapi/helloworldtest/check_rest_1_request.txt")))
 				.uri(URI.create(getOpentestingServer() + "/upload/file/helloworldtest/check_rest_1_request.txt"))
 				.header("Content-Type", "application/json")
 				.build();
 		response = client.send(request, BodyHandlers.ofString());
 		log.info("##### opentesting upload check_rest_1.txt: " + response.body());
 		request = HttpRequest.newBuilder()
-				.POST(HttpRequest.BodyPublishers.ofString(getResourceContent("opentestingapi/helloworldtest/check_rest_1.txt")))
+				.POST(HttpRequest.BodyPublishers
+						.ofString(getResourceContent("opentestingapi/helloworldtest/check_rest_1.txt")))
 				.uri(URI.create(getOpentestingServer() + "/upload/file/helloworldtest/check_rest_1.txt"))
 				.header("Content-Type", "application/json")
 				.build();
 		response = client.send(request, BodyHandlers.ofString());
 		log.info("##### opentesting upload check_rest_1.txt: " + response.body());
-		
+
 		// upload test case
 		request = HttpRequest.newBuilder()
 				.POST(HttpRequest.BodyPublishers.ofString(getResourceContent("opentestingapi/helloworldtest.json")))
@@ -153,14 +160,15 @@ class DemoApplicationTests {
 		Map<String, Object> opentestingdata = json2Map(response.body());
 		String bulkid = (String) opentestingdata.get("bulkid");
 
-		// wait for the test case result: "percentage":0.0,"all":1,"success":0,"open":1,"failed":0,"mandatorySuccess":false,"allSuccess":false		
+		// wait for the test case result:
+		// "percentage":0.0,"all":1,"success":0,"open":1,"failed":0,"mandatorySuccess":false,"allSuccess":false
 		int openchecks = 1;
 		String result = "";
 		while (openchecks > 0) {
 			Thread.sleep(SLEEPTIMEMS);
 			result = getBulkResult(bulkid);
-			opentestingdata = json2Map(result);	
-			openchecks = (Integer) opentestingdata.get("open");			
+			opentestingdata = json2Map(result);
+			openchecks = (Integer) opentestingdata.get("open");
 		}
 		log.info("##### opentesting bulk result: " + result);
 
@@ -169,13 +177,14 @@ class DemoApplicationTests {
 		boolean allSuccess = (Boolean) opentestingdata.get("allSuccess");
 		assertTrue(mandatorySuccess);
 		if (!allSuccess) {
-			log.warn("##### WARNING - some non-mandatory checks failed: "+opentestingdata.get("failed"));
+			log.warn("##### WARNING - some non-mandatory checks failed: " + opentestingdata.get("failed"));
 		}
 
 	}
 
 	/**
 	 * request bulk result by bulkid
+	 * 
 	 * @return
 	 * @throws InterruptedException
 	 * @throws IOException
@@ -183,12 +192,12 @@ class DemoApplicationTests {
 	private String getBulkResult(String bulkid) throws IOException, InterruptedException {
 
 		HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(getOpentestingServer() + "/reporting/bulk?bulkid="+bulkid))
+				.uri(URI.create(getOpentestingServer() + "/reporting/bulk?bulkid=" + bulkid))
 				.build();
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 		log.debug("##### opentesting bulk result: " + response.body());
 
-		return response.body();		
+		return response.body();
 	}
 
 }
