@@ -30,6 +30,9 @@ class DemoApplicationReusableTests {
 	@BeforeAll
 	public static void beforeAll() {
 		opentesting.start();
+
+		// expose host port to the opentesting container
+		org.testcontainers.Testcontainers.exposeHostPorts(8080);
 	}
 
 	/**
@@ -50,9 +53,6 @@ class DemoApplicationReusableTests {
 	@SneakyThrows
 	void helloworldtest1() {
 
-		// expose host port to the opentesting container
-		org.testcontainers.Testcontainers.exposeHostPorts(8080);
-
 		// execute OpenTestingAPI case (folder string example)
 		boolean result1 = new OpenTestingApiExec(getOpentestingServer()).test(
 				"opentestingapi/helloworldtest.json",
@@ -69,9 +69,6 @@ class DemoApplicationReusableTests {
 	@Test
 	@SneakyThrows
 	void helloworldtest2() {
-
-		// expose host port to the opentesting container
-		org.testcontainers.Testcontainers.exposeHostPorts(8080);
 
 		// execute OpenTestingAPI case (files string example)
 		boolean result2 = new OpenTestingApiExec(getOpentestingServer()).test(
@@ -90,9 +87,6 @@ class DemoApplicationReusableTests {
 	@SneakyThrows
 	void helloworldtest3() {
 
-		// expose host port to the opentesting container
-		org.testcontainers.Testcontainers.exposeHostPorts(8080);
-
 		// execute OpenTestingAPI case (folder URL example)
 		boolean result3 = new OpenTestingApiExec(getOpentestingServer()).test(
 				getClass().getClassLoader().getResource("opentestingapi/helloworldtest.json"),
@@ -109,9 +103,6 @@ class DemoApplicationReusableTests {
 	@Test
 	@SneakyThrows
 	void helloworldtest4() {
-
-		// expose host port to the opentesting container
-		org.testcontainers.Testcontainers.exposeHostPorts(8080);
 
 		// execute OpenTestingAPI case (files URL example)
 		boolean result4 = new OpenTestingApiExec(getOpentestingServer()).test(
