@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 class DemoApplicationReusableTests {
 
 	//this time we will reuse it
-	public static GenericContainer opentesting = new GenericContainer(DockerImageName.parse("robertdiers/opentesting:1.0"))
+	public static GenericContainer opentesting = new GenericContainer(DockerImageName.parse("robertdiers/opentesting:latest"))
 			.withExposedPorts(50000)
 			.withAccessToHost(true)
 			.withReuse(true)
