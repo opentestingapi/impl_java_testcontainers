@@ -23,6 +23,8 @@ class DemoApplicationReusableTests {
 	//this time we will reuse it
 	public static GenericContainer opentesting = new GenericContainer(DockerImageName.parse("robertdiers/opentesting:latest"))
 			.withExposedPorts(50000)
+			.withEnv("SPRING_SLEUTH_SAMPLER_PERCENTAGE", "0")
+            		.withEnv("SPRING_ZIPKIN_ENABLED", "false")
 			.withAccessToHost(true)
 			.withReuse(true)
 			.withLogConsumer(new Slf4jLogConsumer(log));
