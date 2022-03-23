@@ -126,7 +126,7 @@ class DemoApplicationReusableTests {
 	 */
 	private boolean isJsonInSub() {
 		boolean jsonInSubFolder = true;
-		File folder = new File("target/test-classes/opentestingapi");
+		File folder = new File(getClass().getClassLoader().getResource("opentestingapi").getFile());
 		for (File f : folder.listFiles()) {
 			if (FileNameUtils.getExtension(f.getName()).equals("json")) {
 				jsonInSubFolder = false;
@@ -139,7 +139,7 @@ class DemoApplicationReusableTests {
 	 * @return Stream of all subfolder names
 	 */
 	public static Stream<String> getProvidedTestCases() {
-		File folder = new File("target/test-classes/opentestingapi");
+		File folder = new File(DemoApplicationReusableTests.class.getClassLoader().getResource("opentestingapi").getFile());
 		String[] directories = folder.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File current, String name) {
@@ -154,7 +154,6 @@ class DemoApplicationReusableTests {
 	@SneakyThrows
 	@ParameterizedTest
 	@MethodSource("getProvidedTestCases")
-	@DisplayName("Test All Data")
 	void testAllData(String data) {
 		String folder = "opentestingapi/" + data;
 		StringBuilder jsonData = new StringBuilder("opentestingapi/" + data);
