@@ -35,7 +35,7 @@ public class DevEnv {
     public static List<GenericContainer> containers = new ArrayList<>();   
 
     @SneakyThrows
-    public static void init(){
+    public static void init(boolean isSystemtest){
 
         ConfigureDevEnv configure = new ConfigureDevEnv();        
 
@@ -46,7 +46,9 @@ public class DevEnv {
         log.info("creating containers...");        
 
         //Opentesting
-        create(Opentesting.getInstance()); //will use host network to get access to other containers        
+        if (!isSystemtest) create(Opentesting.getInstance()); //will use host network to get access to other containers        
+
+        //you might have more containers here that will be started for local dev env and systemtests (like databases)
 
         //start parallel
         log.info("starting containers...");
@@ -60,7 +62,7 @@ public class DevEnv {
 
     @SneakyThrows
     public static void main(String[] args) {        
-        init();
+        init(false);
         log.info("stop after usage using Ctrl+C");
         log.info("###################################################");
 
