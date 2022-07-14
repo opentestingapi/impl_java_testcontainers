@@ -75,6 +75,13 @@ public class DevEnv {
         }
     }
 
+    /**
+     * stop containers
+     */
+    public static void stop() {
+        containers.stream().forEach(cont -> cont.stop()); 
+    }
+
     private static void create(GenericContainer cont) {
         containers.add(cont);
         log.info(cont.getClass().getSimpleName()+" created");
