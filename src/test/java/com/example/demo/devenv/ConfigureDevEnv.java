@@ -13,6 +13,11 @@ public class ConfigureDevEnv {
 
     private String networkMode;
     private String dockerSocket;
+    private boolean detected = false;
+
+    public ConfigureDevEnv() {
+        init();
+    }
 
     private String processCmd(String cmd){
         try {
@@ -59,11 +64,15 @@ public class ConfigureDevEnv {
 
         if(docker){
             networkMode = "bridge";
+            detected = true;
         } else if (podman){
-            networkMode = "slirp4netns";
+            networkMode = "slirp4netns"; //VPN support
+            detected = true;
         } else {
-            networkMode = "";
-            throw new RuntimeException("Supported Container Environment Missing (Docker/Podman)");
+            networkMode = "bridge"; //might be Docker in Pipeline
+            dockerSocket = "";
+            log.warn("Supported Container Environment Missing (Docker/Podman) - trying default");
+            return;
         }
 
         if(os.toLowerCase().contains("win")){
@@ -91,4 +100,9 @@ public class ConfigureDevEnv {
             init();
         return dockerSocket;
     }
+
+    public boolean isDetected(){
+        return detected;
+    }
+
 }

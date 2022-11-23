@@ -39,8 +39,8 @@ public class DevEnv {
 
         ConfigureDevEnv configure = new ConfigureDevEnv();        
 
-        //set socket
-        updateEnv("DOCKER_HOST", configure.getDockersocket());       
+        //set socket if detected
+        if (configure.isDetected()) updateEnv("DOCKER_HOST", configure.getDockersocket());       
 
         //here we will add all required containers
         log.info("creating containers...");        
