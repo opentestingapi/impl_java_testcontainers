@@ -9,4 +9,9 @@ Here you can find the interesting stuff with auto-detecting of created test case
 
 [Test Class](src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
 
+
+## Example Testing
+
 ![arch](arch.drawio.svg "Arch")
+
+You can also use it to test a set applications, the same approcach could be used with reduced phases.
