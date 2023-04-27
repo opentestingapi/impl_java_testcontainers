@@ -8,3 +8,5 @@ Using this approach it is possible to execute existing test cases during maven b
 Here you can find the interesting stuff with auto-detecting of created test cases:
 
 [Test Class](src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
+
+![arch](arch.drawio.svg "Arch")
