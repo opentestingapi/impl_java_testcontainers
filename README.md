@@ -11,10 +11,12 @@ simple: [Test Class](simple/src/test/java/com/example/demo/systemtest/OpenTestin
 
 `mvn clean install`
 
-different environments / templating: [Test Class](stagesupport/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
+different environments / templating: [Test Class](stagesupport/execution1/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
 
 `mvn test -Psystemtest`
+
 `mvn test -Penv1`
+
 `mvn test -Penv2`
 
 (Testcontainers sometimes fails if containers are not available locally and pull takes to long - you should pull them manually before...)
