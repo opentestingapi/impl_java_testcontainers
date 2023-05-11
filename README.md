@@ -15,7 +15,7 @@ Here you can find the interesting stuff with auto-detecting of created test case
 
 ### different environments / templating
 
-[ReadMe](stagesupport/)
+[Features](stagesupport/)
 
 [Test Class](stagesupport/execution1/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
 
