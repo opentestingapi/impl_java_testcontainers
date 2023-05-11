@@ -7,13 +7,13 @@ Using this approach it is possible to execute existing test cases during maven b
 
 Here you can find the interesting stuff with auto-detecting of created test cases:
 
- ### simple 
+ ### simple (folder "simple")
 
  [Test Class](simple/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
 
 `mvn clean install`
 
-### different environments / templating
+### different environments / templating (folder "stagesupport")
 
 Features:
 
