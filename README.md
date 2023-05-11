@@ -15,7 +15,15 @@ Here you can find the interesting stuff with auto-detecting of created test case
 
 ### different environments / templating
 
-[Features](stagesupport/)
+Features:
+
+* support maven profiles (one profile for every environment)
+* support preparation test cases
+* parallel or sequential execution of test cases using annotation (https://github.com/opentestingapi/impl_java_testcontainers/blob/main/stagesupport/execution1/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java#L122)
+* define repository in testcontainers.properties
+* define OTA instance (within testcontainers or external)
+* support content replacement in test cases (templating, for example URLs from properties)
+* a "virtual environment" instead of testing external ressources (Env2)
 
 [Test Class](stagesupport/execution1/src/test/java/com/example/demo/systemtest/OpenTestingSystemTest.java)
 
