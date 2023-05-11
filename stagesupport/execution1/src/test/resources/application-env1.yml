@@ -1,0 +1,8 @@
+tests:
+- systemtests/pipelinetest001
+#- templates/testcase001 -> will fail because of missing external Cassandra
+cassandra:
+    url: <external-url>
+    projectstarter: 
+        username: <username>
+        password: <password>

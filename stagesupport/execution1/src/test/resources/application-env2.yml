@@ -1,0 +1,8 @@
+tests:
+- systemtests/pipelinetest001
+- templates/testcase001
+cassandra:
+    url: docker:9042
+    projectstarter:
+        username: projectstarter
+        password: projectstarter

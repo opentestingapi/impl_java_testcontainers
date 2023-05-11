@@ -1,0 +1,8 @@
+tests:
+- systemtests/pipelinetest001
+- systemtests/pipelinetest002
+preparationtests:
+- systemtests/pipelinetestprep001
+- systemtests/pipelinetestprep002
+testcontainers:
+    url: http://host.testcontainers.internal:8080
