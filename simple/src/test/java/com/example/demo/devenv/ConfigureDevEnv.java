@@ -77,7 +77,7 @@ public class ConfigureDevEnv {
 
         if(os.toLowerCase().contains("win")){
             dockerSocket = "tcp://localhost:2375";
-        } else if(os.toLowerCase().contains("linux")){
+        } else if (os.toLowerCase().contains("linux")){
             if(docker) {
                 dockerSocket = "unix:///var/run/docker.sock";
             } else if (podman) {

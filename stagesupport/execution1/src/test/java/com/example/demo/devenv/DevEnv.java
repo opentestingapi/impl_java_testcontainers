@@ -1,14 +1,11 @@
 package com.example.demo.devenv;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.assertj.core.util.Arrays;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.Container.ExecResult;
+import org.testcontainers.utility.TestcontainersConfiguration;
 
 import com.example.demo.common.Sleeper;
 import com.example.demo.devenv.containers.*;
@@ -63,7 +60,7 @@ public class DevEnv {
     public static void startContainers(){
 
         //set socket if detected
-        if (configure.isDetected()) updateEnv("DOCKER_HOST", configure.getDockersocket());
+        if (configure.isDetected()) TestcontainersConfiguration.getInstance().updateUserConfig("docker.host", configure.getDockersocket());
 
         //expose host port to the opentesting container
         org.testcontainers.Testcontainers.exposeHostPorts(8080);
@@ -122,30 +119,6 @@ public class DevEnv {
     protected static void start(GenericContainer cont) {
         cont.start();
         log.info(cont.getClass().getSimpleName()+" started");
-    }
-
-    public static GenericContainer get(Class clazz) {
-        for (GenericContainer cont : containers) {
-            if (cont.getClass().getSimpleName().equals(clazz.getSimpleName())) return cont;
-        }
-        throw new RuntimeException(clazz+" not found");
-    }
-    
-    @SneakyThrows
-    private static void execCommand(GenericContainer cont, String... command) {   
-        log.info(cont.getClass().getSimpleName()+" executing: "+Arrays.asList(command));
-        ExecResult res = cont.execInContainer(command);
-        log.info(cont.getClass().getSimpleName()+" exec done (Exit "+res.getExitCode()+"):");
-        log.info("Stdout: "+res.getStdout());
-        log.info("Stderr: "+res.getStderr());        
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    public static void updateEnv(String name, String val) throws ReflectiveOperationException {
-        Map<String, String> env = System.getenv();
-        Field field = env.getClass().getDeclaredField("m");
-        field.setAccessible(true);
-        ((Map<String, String>) field.get(env)).put(name, val);
     }
     
 }
