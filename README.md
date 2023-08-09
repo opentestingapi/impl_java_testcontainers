@@ -5,6 +5,10 @@ start impl_java as testcontainer to execute test cases with JUnit
 
 Using this approach it is possible to execute existing test cases during maven build.
 
+
+ATTENTION: the automation will simply execute the first available inject! It can be changed here: https://github.com/opentestingapi/impl_java_testcontainers/blob/main/stagesupport/execution1/src/test/java/com/example/demo/systemtest/util/OpenTestingApiTester.java#L152
+
+
 Here you can find the interesting stuff with auto-detecting of created test cases:
 
  ### simple (folder "simple")
