@@ -1,4 +1,4 @@
-FROM ${REPOSITORY}/library/cassandra:4.0.7
+FROM ${REPOSITORY}/library/cassandra
 
 COPY init /init
 
